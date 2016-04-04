@@ -294,10 +294,9 @@ class hr_payroll(models.Model):
 											continue 
 										diff_time = attendance_datetime - start_overtime
 										diff_time = get_float_from_time(str(diff_time)) * rule.rate
+										diff_time = get_time_from_float(diff_time)
+										diff_time = get_overtime_working_day(diff_time)
 										val_overtime += diff_time
-										val_overtime = get_time_from_float(val_overtime)
-										val_overtime = get_overtime_working_day(val_overtime)
-
 							else:
 								if rule.type == 'official_leave':
 									if attendance.action == 'sign_in':
