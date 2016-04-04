@@ -238,7 +238,7 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = att_date - start_overtime
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
-										val_overtime = self.get_overtime_working_day(val_overtime)
+										val_overtime = self._get_overtime_working_day(val_overtime)
 										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
 								else:
