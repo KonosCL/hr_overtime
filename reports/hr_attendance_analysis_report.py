@@ -261,7 +261,7 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = sign_out_attendance_time - sign_in_attendance_time
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
-										_logger.debug('Overtime Values 3: %s'val_overtime)
+										_logger.debug('Overtime Values 3: %s',val_overtime)
 										return val_overtime
 		
 					else:
