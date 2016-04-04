@@ -272,7 +272,7 @@ class ParticularReport(osv.AbstractModel):
 											val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 											val_overtime = self._get_time_from_float(val_overtime)
 											val_overtime = self._get_overtime_holiday(val_overtime)
-											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = timedelta(hours=val_overtime)
 											return val_overtime
 							else:
 								if rule.type == 'weekend':
@@ -289,7 +289,7 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
 										val_overtime = self._get_overtime_holiday(val_overtime)
-										val_overtime = self._get_time_from_float(val_overtime)
+										val_overtime = timedelta(hours=val_overtime)
 										return val_overtime
 		
 					else:
