@@ -23,6 +23,9 @@ from openerp.osv import osv, fields
 from openerp.report import report_sxw
 import pytz
 from openerp import SUPERUSER_ID
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class ParticularReport(osv.AbstractModel):
 	_name = 'report.hr_overtime.hr_attendance_analysis'
@@ -226,6 +229,7 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = att_date - start_overtime
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
+										_logger.debug('Overtime Values 1: %s'val_overtime)
 										return val_overtime
 								else:
 									if rule.type == 'official_leave':
@@ -241,6 +245,7 @@ class ParticularReport(osv.AbstractModel):
 											diff_time = sign_out_attendance_time - sign_in_attendance_time
 											val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 											val_overtime = self._get_time_from_float(val_overtime)
+											_logger.debug('Overtime Values 2: %s'val_overtime)
 											return val_overtime
 							else:
 								if rule.type == 'weekend':
@@ -256,6 +261,7 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = sign_out_attendance_time - sign_in_attendance_time
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
+										_logger.debug('Overtime Values 3: %s'val_overtime)
 										return val_overtime
 		
 					else:
@@ -268,6 +274,7 @@ class ParticularReport(osv.AbstractModel):
 									if att_date.date() == ov_date.date() == date:
 										val_overtime = overtime.total_time * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
+										_logger.debug('Overtime Values: %s'val_overtime)
 										return val_overtime
 		
 		docargs = {
