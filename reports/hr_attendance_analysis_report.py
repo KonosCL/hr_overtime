@@ -221,7 +221,7 @@ class ParticularReport(osv.AbstractModel):
 							if self._get_index_day(att_date.date()) in day_ids:
 								if Flage == False:
 									if rule.type == 'working_day' and object.action == 'sign_out':
-										start_overtime = hour_to 
+										start_overtime = hour_to
 										start_overtime_time = self._get_time_from_float(start_overtime)
 										start_overtime = tz.localize(datetime.combine(att_date.date(), start_overtime_time))
 										if start_overtime > att_date:
