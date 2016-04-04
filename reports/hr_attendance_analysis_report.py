@@ -95,7 +95,7 @@ class ParticularReport(osv.AbstractModel):
 			jamKedua = 1*3
 			jamSelanjutnya = (totalTime-9)*4
 			totalJam = jamPertama+jamKedua+jamSelanjutnya
-		elif totalTime = 9:
+		elif totalTime == 9:
 			jamPertama = 8*2
 			jamKedua = 1*3
 			totalJam = jamPertama+jamKedua
