@@ -229,7 +229,7 @@ class hr_payroll(models.Model):
 
 
 		def get_overtime_working_day(time_type):
-			totalTime = self._get_float_from_time(str(time_type))
+			totalTime = get_float_from_time(str(time_type))
 			if totalTime > 1:
 				jamPertama = 1.5
 				jamSelanjutnya = (totalTime-1) * 2
