@@ -226,6 +226,18 @@ class hr_payroll(models.Model):
 			signOnP = [int(n) for n in time_type.split(":")]
 			signOnH = signOnP[0] + signOnP[1]/60.0
 			return signOnH
+
+
+		def get_overtime_working_day(time_type):
+			totalTime = self._get_float_from_time(str(time_type))
+			if totalTime > 1:
+				jamPertama = 1.5
+				jamSelanjutnya = (totalTime-1) * 2
+				totalJam = jamPertama + jamSelanjutnya
+			else:
+				totalJam = totalTime*1.5
+			return totalJam
+
 		
 		for contract in contract_obj.browse(contract_ids):
 			# If work schedule not found skip this contract
@@ -283,6 +295,9 @@ class hr_payroll(models.Model):
 										diff_time = attendance_datetime - start_overtime
 										diff_time = get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime += diff_time
+										val_overtime = get_time_from_float(val_overtime)
+										val_overtime = get_overtime_working_day(val_overtime)
+
 							else:
 								if rule.type == 'official_leave':
 									if attendance.action == 'sign_in':
