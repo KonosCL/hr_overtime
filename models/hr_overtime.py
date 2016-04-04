@@ -238,6 +238,22 @@ class hr_payroll(models.Model):
 				totalJam = totalTime*1.5
 			return totalJam
 
+
+		def get_overtime_holiday(time_type):
+			totalTime = get_float_from_time(str(time_type))
+			if totalTime >= 10:
+				jamPertama = 8*2
+				jamKedua = 1*3
+				jamSelanjutnya = (totalTime-9)*4
+				totalJam = jamPertama+jamKedua+jamSelanjutnya
+			elif totalTime = 9:
+				jamPertama = 8*2
+				jamKedua = 1*3
+				totalJam = jamPertama+jamKedua
+			else:
+				totalJam = totalTime*2
+			return totalJam
+
 		
 		for contract in contract_obj.browse(contract_ids):
 			# If work schedule not found skip this contract
@@ -310,6 +326,8 @@ class hr_payroll(models.Model):
 									if sign_in_date == sign_out_date:
 										diff_time = sign_out_attendance_time - sign_in_attendance_time
 										diff_time = get_float_from_time(str(diff_time)) * rule.rate
+										diff_time = get_time_from_float(diff_time)
+										diff_time = get_overtime_holiday(diff_time)
 										val_overtime += diff_time
 						else:
 							if rule.type == 'weekend':
@@ -324,6 +342,8 @@ class hr_payroll(models.Model):
 								if sign_in_date == sign_out_date:
 									diff_time = sign_out_attendance_time - sign_in_attendance_time
 									diff_time = get_float_from_time(str(diff_time)) * rule.rate
+									diff_time = get_time_from_float(diff_time)
+									diff_time = get_overtime_holiday(diff_time)
 									val_overtime += diff_time
 			
 			else:

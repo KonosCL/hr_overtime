@@ -88,6 +88,22 @@ class ParticularReport(osv.AbstractModel):
 		return totalJam
 
 
+	def _get_overtime_holiday(self, time_type):
+		totalTime = self._get_float_from_time(str(time_type))
+		if totalTime >= 10:
+			jamPertama = 8*2
+			jamKedua = 1*3
+			jamSelanjutnya = (totalTime-9)*4
+			totalJam = jamPertama+jamKedua+jamSelanjutnya
+		elif totalTime = 9:
+			jamPertama = 8*2
+			jamKedua = 1*3
+			totalJam = jamPertama+jamKedua
+		else:
+			totalJam = totalTime*2
+		return totalJam
+
+
 	def render_html(self, cr, uid, ids, data=None, context=None):
 		report_obj = self.pool['report']
 		report = report_obj._get_report_from_name(
@@ -255,7 +271,8 @@ class ParticularReport(osv.AbstractModel):
 											diff_time = sign_out_attendance_time - sign_in_attendance_time
 											val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 											val_overtime = self._get_time_from_float(val_overtime)
-											_logger.debug('Overtime Values 2: %s',val_overtime)
+											val_overtime = self._get_overtime_holiday(val_overtime)
+											val_overtime = self._get_time_from_float(val_overtime)
 											return val_overtime
 							else:
 								if rule.type == 'weekend':
@@ -271,7 +288,8 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = sign_out_attendance_time - sign_in_attendance_time
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
-										_logger.debug('Overtime Values 3: %s',val_overtime)
+										val_overtime = self._get_overtime_holiday(val_overtime)
+										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
 		
 					else:
@@ -284,7 +302,6 @@ class ParticularReport(osv.AbstractModel):
 									if att_date.date() == ov_date.date() == date:
 										val_overtime = overtime.total_time * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
-										_logger.debug('Overtime Values 4: %s',val_overtime)
 										return val_overtime
 		
 		docargs = {
