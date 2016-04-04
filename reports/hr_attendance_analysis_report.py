@@ -76,8 +76,17 @@ class ParticularReport(osv.AbstractModel):
 		signOnP = [int(n) for n in time_type.split(":")]
 		signOnH = signOnP[0] + signOnP[1]/60.0
 		return signOnH
-		
-		
+
+	def get_overtime_working_day(self, time_type):
+		totalTime = self._get_float_from_time(str(time_type))
+		if totalTime < 1
+			jamPertama = 1.5
+			jamSelanjutnya = (totalTime-1) * 2
+			totalJam = jamPertama + jamSelanjutnya
+		else:
+			totalJam = totalTime*1.5
+		return totalJam
+
 
 	def render_html(self, cr, uid, ids, data=None, context=None):
 		report_obj = self.pool['report']
@@ -174,9 +183,9 @@ class ParticularReport(osv.AbstractModel):
 					# No need for this part but it's a fail safe condition
 					elif int(line.dayofweek) == date_in.weekday() and hour != 0.0 and line.hour_from < hour:
 						hour = line.hour_to
-			return hour
+			return hour				
 						
-						
+
 		def _get_overtime(docs,date):
 			for object in docs:
 				employee_id = object.employee_id.id
@@ -229,8 +238,10 @@ class ParticularReport(osv.AbstractModel):
 										diff_time = att_date - start_overtime
 										val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
 										val_overtime = self._get_time_from_float(val_overtime)
-										_logger.debug('Overtime Values 1: %s',val_overtime)
+										val_overtime = self.get_overtime_working_day(val_overtime)
+										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
+										return 
 								else:
 									if rule.type == 'official_leave':
 										if object.action == 'sign_in':
