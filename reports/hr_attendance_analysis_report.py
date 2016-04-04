@@ -79,7 +79,7 @@ class ParticularReport(osv.AbstractModel):
 
 	def get_overtime_working_day(self, time_type):
 		totalTime = self._get_float_from_time(str(time_type))
-		if totalTime < 1
+		if totalTime < 1:
 			jamPertama = 1.5
 			jamSelanjutnya = (totalTime-1) * 2
 			totalJam = jamPertama + jamSelanjutnya
