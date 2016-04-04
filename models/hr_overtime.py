@@ -219,7 +219,7 @@ class hr_payroll(models.Model):
 			str_hour = str_time.split('.')[0]
 			str_minute = ("%2d" % int(str(float("0." + str_time.split('.')[1]) * 60).split('.')[0])).replace(' ','0')
 			str_ret_time = str_hour + ":" + str_minute + ":00"
-			#str_ret_time = datetime.strptime(str_ret_time, TIME_FORMAT).time()
+			str_ret_time = datetime.strptime(str_ret_time, TIME_FORMAT).time()
 			return str_ret_time
 			
 		def get_float_from_time(time_type):
