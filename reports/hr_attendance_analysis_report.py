@@ -77,9 +77,9 @@ class ParticularReport(osv.AbstractModel):
 		signOnH = signOnP[0] + signOnP[1]/60.0
 		return signOnH
 
-	def get_overtime_working_day(self, time_type):
+	def _get_overtime_working_day(self, time_type):
 		totalTime = self._get_float_from_time(str(time_type))
-		if totalTime < 1:
+		if totalTime > 1:
 			jamPertama = 1.5
 			jamSelanjutnya = (totalTime-1) * 2
 			totalJam = jamPertama + jamSelanjutnya
@@ -241,7 +241,6 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self.get_overtime_working_day(val_overtime)
 										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
-										return 
 								else:
 									if rule.type == 'official_leave':
 										if object.action == 'sign_in':
