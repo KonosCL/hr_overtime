@@ -168,14 +168,22 @@ class hr_absensi(models.Model):
 
 	@api.model
 	def get_worked_day_lines(self, contract_ids, date_from, date_to):
-		res = super(hr_payroll, self).get_worked_day_lines(contract_ids, date_from, date_to)
+		res = super(hr_absensi, self).get_worked_day_lines(contract_ids, date_from, date_to)
+		user_pool = self.env['res.users']
+		contract_obj = self.env['hr.contract']
+		attendance_obj = self.env['hr.attendance']
+		working_hours_obj = self.env['resource.calendar']
+		user = user_pool.browse(SUPERUSER_ID)
+		tz = pytz.timezone(user.partner_id.tz) or pytz.utc
+		for contract in contract_obj.browse(contract_ids):
+			radit = contract.id
 		overtime = {
 			'name': 'Absensi',
 			'sequence': 11,
 			'code': 'Absensi',
 			'number_of_days': 240 / 24,
 			'number_of_hours': 10,
-			'contract_id': 1,
+			'contract_id': contract.id,
 		}
 		res += [overtime]
 		return res
