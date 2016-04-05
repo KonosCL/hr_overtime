@@ -162,6 +162,24 @@ class hr_contract(models.Model):
 	
 	overtime_structure_id = fields.Many2one('hr.overtime.structure', string="Overtime Structure")
 	
+
+class hr_absensi(models.Model):
+	_inherit = 'hr.payslip'
+
+	@api.model
+	def get_worked_day_lines(self, contract_ids, date_from, date_to):
+		res = super(hr_payroll, self).get_worked_day_lines(contract_ids, date_from, date_to)
+		overtime = {
+			'name': 'Absensi',
+			'sequence': 11,
+			'code': 'Absensi',
+			'number_of_days': 240 / 24,
+			'number_of_hours': 10,
+			'contract_id': 1,
+		}
+		res += [overtime]
+		return res
+
 	
 class hr_payroll(models.Model):
 	_inherit = 'hr.payslip'
