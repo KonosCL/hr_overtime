@@ -104,6 +104,19 @@ class ParticularReport(osv.AbstractModel):
 		return totalJam
 
 
+	def _format_timedelta(self,td):
+		hours, remainder = divmod(td.total_seconds(), 3600)
+	    minutes, seconds = divmod(remainder, 60)
+	    hours, minutes, seconds = int(hours), int(minutes), int(seconds)
+	    if hours < 10:
+	        hours = '0%s' % int(hours)
+	    if minutes < 10:
+	        minutes = '0%s' % minutes
+	    if seconds < 10:
+	        seconds = '0%s' % seconds
+	    return '%s:%s:%s' % (hours, minutes, seconds)
+
+
 	def render_html(self, cr, uid, ids, data=None, context=None):
 		report_obj = self.pool['report']
 		report = report_obj._get_report_from_name(
@@ -273,6 +286,7 @@ class ParticularReport(osv.AbstractModel):
 											val_overtime = self._get_time_from_float(val_overtime)
 											val_overtime = self._get_overtime_holiday(val_overtime)
 											val_overtime = timedelta(hours=val_overtime)
+											val_overtime = self._format_timedelta(val_overtime)
 											return val_overtime
 							else:
 								if rule.type == 'weekend':
@@ -290,6 +304,7 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self._get_time_from_float(val_overtime)
 										val_overtime = self._get_overtime_holiday(val_overtime)
 										val_overtime = timedelta(hours=val_overtime)
+										val_overtime = self._format_timedelta(val_overtime)
 										return val_overtime
 		
 					else:
