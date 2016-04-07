@@ -358,7 +358,7 @@ class hr_payroll(models.Model):
 										diff_time = get_overtime_holiday(diff_time)
 										val_overtime += diff_time
 						else:
-							if rule.type == 'weekend':
+							if rule.type == 'weekend' or rule.type == 'public_holiday':
 								if attendance.action == 'sign_in':
 									sign_in_date = attendance_datetime.date()
 									sign_in_attendance_time = attendance_datetime

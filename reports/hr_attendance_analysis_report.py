@@ -289,7 +289,7 @@ class ParticularReport(osv.AbstractModel):
 											val_overtime = self._format_timedelta(val_overtime)
 											return val_overtime
 							else:
-								if rule.type == 'weekend':
+								if rule.type == 'weekend' or rule.type == 'public_holiday':
 									if object.action == 'sign_in':
 										sign_in_date = att_date.date()
 										sign_in_attendance_time = att_date
