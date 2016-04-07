@@ -342,7 +342,7 @@ class hr_payroll(models.Model):
 										diff_time = get_overtime_working_day(diff_time)
 										val_overtime += diff_time
 							else:
-								if rule.type == 'official_leave' || rule.type == 'public_holiday':
+								if rule.type == 'official_leave' or rule.type == 'public_holiday':
 									if attendance.action == 'sign_in':
 										sign_in_date = attendance_datetime.date()
 										sign_in_attendance_time = attendance_datetime
