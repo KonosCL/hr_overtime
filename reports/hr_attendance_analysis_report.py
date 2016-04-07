@@ -241,7 +241,7 @@ class ParticularReport(osv.AbstractModel):
 						holiday_status_id = [self.pool.get('hr.holidays.status').search(cr, uid, [('name','=','Official Leave')], context=context)[0],self.pool.get('hr.holidays.status').search(cr, uid, [('name','=','Public Holiday')], context=context)[0]]
 						domain =[
 							('employee_id','=',object.employee_id.id),
-							('holiday_status_id','=',holiday_status_id)
+							('holiday_status_id','in',holiday_status_id)
 						]
 						leave_ids = self.pool.get('hr.holidays').search(cr, uid, domain, context=context)
 						Flage = False

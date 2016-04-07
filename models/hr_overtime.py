@@ -314,7 +314,7 @@ class hr_payroll(models.Model):
 					
 					domain =[
 						('employee_id','=',attendance.employee_id.id),
-						('holiday_status_id','=',holiday_status_id)
+						('holiday_status_id','in',holiday_status_id)
 					]
 					leave_ids = self.env['hr.holidays'].search(domain)
 					Flage = False
