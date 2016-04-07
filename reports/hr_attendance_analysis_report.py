@@ -270,6 +270,24 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self._get_overtime_working_day(val_overtime)
 										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
+										
+									elif rule.type == 'public_holiday':
+										if object.action == 'sign_in':
+											sign_in_date = att_date.date()
+											sign_in_attendance_time = att_date
+										
+										elif object.action == 'sign_out':
+											sign_out_date = att_date.date()
+											sign_out_attendance_time = att_date
+										
+										if sign_in_date == sign_out_date:
+											diff_time = sign_out_attendance_time - sign_in_attendance_time
+											val_overtime = self._get_float_from_time(str(diff_time)) * rule.rate
+											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = self._get_overtime_holiday(val_overtime)
+											val_overtime = timedelta(hours=val_overtime)
+											val_overtime = self._format_timedelta(val_overtime)
+											return val_overtime
 								else:
 									if rule.type == 'official_leave':
 										if object.action == 'sign_in':
