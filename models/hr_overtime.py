@@ -55,6 +55,7 @@ class hr_overtime(models.Model):
 	total_time = fields.Float(string="Total Time", compute='_compute_total')
 	type = fields.Selection([
 		('official_leave','Official Leave'),
+		('public_holiday','Public Holiday'),
 		('working_day','Working Day'),
 		('weekend','WeekEnd'),
 	], string="Overtime Type")
@@ -148,6 +149,7 @@ class hr_ov_structure_rule(models.Model):
 	
 	type = fields.Selection([
 		('official_leave','Official Leave'),
+		('public_holiday','Public Holiday'),
 		('working_day','Working Day'),
 		('weekend','WeekEnd')
 	], string="Overtime Type", default="working_day")
@@ -182,7 +184,7 @@ class hr_absensi(models.Model):
 			'sequence': 11,
 			'code': 'Absensi',
 			'number_of_days': 240 / 24,
-			'number_of_hours': 10,
+			'number_of_hours': 0,
 			'contract_id': contract.id,
 		}
 		res += [overtime]
@@ -340,7 +342,7 @@ class hr_payroll(models.Model):
 										diff_time = get_overtime_working_day(diff_time)
 										val_overtime += diff_time
 							else:
-								if rule.type == 'official_leave':
+								if rule.type == 'official_leave' || rule.type == 'public_holiday':
 									if attendance.action == 'sign_in':
 										sign_in_date = attendance_datetime.date()
 										sign_in_attendance_time = attendance_datetime
