@@ -310,7 +310,7 @@ class hr_payroll(models.Model):
 					hour_to = get_end_hour_of_the_day(attendance_datetime, contract.working_hours.id)
 					hour_to_time = get_time_from_float(hour_to)
 					
-					holiday_status_id = self.env['hr.holidays.status'].search([('name','=','Official Leave')]).id
+					holiday_status_id = [self.env['hr.holidays.status'].search([('name','=','Official Leave')]).id,self.env['hr.holidays.status'].search([('name','=','Public Holiday')]).id]
 					
 					domain =[
 						('employee_id','=',attendance.employee_id.id),

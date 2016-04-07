@@ -238,7 +238,7 @@ class ParticularReport(osv.AbstractModel):
 										
 					if employee.contract_id.overtime_structure_id.overtime_method == 'ov_attendance':
 						# get Official Leave 
-						holiday_status_id = self.pool.get('hr.holidays.status').search(cr, uid, [('name','=','Official Leave')], context=context)[0]
+						holiday_status_id = [self.pool.get('hr.holidays.status').search(cr, uid, [('name','=','Official Leave')], context=context)[0],self.pool.get('hr.holidays.status').search(cr, uid, [('name','=','Public Holiday')], context=context)[0]]
 						domain =[
 							('employee_id','=',object.employee_id.id),
 							('holiday_status_id','=',holiday_status_id)
