@@ -271,7 +271,7 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
 								else:
-									if rule.type == 'official_leave' or rule.type == 'official_leave':
+									if rule.type == 'official_leave' or rule.type == 'public_holiday':
 										if object.action == 'sign_in':
 											sign_in_date = att_date.date()
 											sign_in_attendance_time = att_date
