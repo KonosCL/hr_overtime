@@ -270,7 +270,7 @@ class ParticularReport(osv.AbstractModel):
 										val_overtime = self._get_overtime_working_day(val_overtime)
 										val_overtime = self._get_time_from_float(val_overtime)
 										return val_overtime
-										
+
 									elif rule.type == 'public_holiday':
 										if object.action == 'sign_in':
 											sign_in_date = att_date.date()
@@ -351,9 +351,33 @@ class ParticularReport(osv.AbstractModel):
 								ov_date = pytz.utc.localize(datetime.strptime(overtime.from_date,"%Y-%m-%d %H:%M:%S")).astimezone(tz)
 								if rule.type == overtime.type:
 									if att_date.date() == ov_date.date() == date:
-										val_overtime = overtime.total_time * rule.rate
-										val_overtime = self._get_time_from_float(val_overtime)
-										return val_overtime
+										if overtime.type == 'public_holiday':
+											val_overtime = overtime.total_time * rule.rate
+											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = self._get_overtime_holiday(val_overtime)
+											val_overtime = timedelta(hours=val_overtime)
+											val_overtime = self._format_timedelta(val_overtime)
+											return val_overtime
+										elif overtime.type == 'weekend':
+											val_overtime = overtime.total_time * rule.rate
+											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = self._get_overtime_holiday(val_overtime)
+											val_overtime = timedelta(hours=val_overtime)
+											val_overtime = self._format_timedelta(val_overtime)
+											return val_overtime
+										elif overtime.type =='official_leave':
+											val_overtime = overtime.total_time * rule.rate
+											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = self._get_overtime_holiday(val_overtime)
+											val_overtime = timedelta(hours=val_overtime)
+											val_overtime = self._format_timedelta(val_overtime)
+											return val_overtime
+										else:
+											val_overtime = overtime.total_time * rule.rate
+											val_overtime = self._get_time_from_float(val_overtime)
+											val_overtime = self._get_overtime_working_day(val_overtime)
+											val_overtime = self._get_time_from_float(val_overtime)
+											return val_overtime
 		
 		docargs = {
 			'doc_ids': ids,
